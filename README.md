@@ -39,10 +39,9 @@ On Windows, the desktop renderer currently uses `wgpu` with DirectX 12. The
 application can run without `slangc`; the build script automatically uses the
 matching WGSL shader path when Slang is not installed.
 
-Local splat scenes can live in [`assets/`](assets/). The downloaded scenes used
-during development are third-party assets, intentionally excluded from the Git
-archive because of their size, and may have licenses or terms separate from
-this project; check their original source before redistributing them.
+Download the example scenes into [`assets/`](assets/) using the instructions in
+[`assets/README.md`](assets/README.md). They are third-party assets with
+individual source licenses; check those terms before redistributing them.
 
 ## Picking up the project
 
