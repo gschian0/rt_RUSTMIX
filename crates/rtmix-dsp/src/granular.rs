@@ -102,7 +102,7 @@ impl Granular {
         let length = (self.grain_dur * sample_rate as f32).round().max(8.0) as u32;
         let pitch = self.pitch
             * (1.0 + (self.random() * 2.0 - 1.0) * self.jitter * 0.18);
-        let pan = (self.pan + (self.random() * 2.0 - 1.0) * self.jitter * 0.35).clamp(0.0, 1.0);
+        let pan = (self.pan + (self.random() * 2.0 - 1.0) * self.jitter * 0.18).clamp(0.0, 1.0);
         self.grains[slot] = Grain {
             active: true,
             position: self.random(),
@@ -157,8 +157,7 @@ impl Instrument for Granular {
                 let frac = position - index as f32;
                 let value = table[index] + (table[next] - table[index]) * frac;
                 let value = value * window * grain.amp * self.amp;
-                let pan_l = libm::sqrtf(1.0 - grain.pan);
-                let pan_r = libm::sqrtf(grain.pan);
+                let (pan_l, pan_r) = equal_power_pan(grain.pan);
                 left += value * pan_l;
                 right += value * pan_r;
                 grain.position = (grain.position + grain.step).fract();
@@ -167,6 +166,7 @@ impl Instrument for Granular {
                     grain.active = false;
                 }
             }
+
             if channels == 1 {
                 ctx.buses.add(ctx.out_bus, 0, frame, (left + right) * 0.5);
             } else {
@@ -174,5 +174,35 @@ impl Instrument for Granular {
                 ctx.buses.add(ctx.out_bus, 1, frame, right);
             }
         }
+
+    }
+}
+
+#[inline]
+fn equal_power_pan(pan: f32) -> (f32, f32) {
+    let pan = pan.clamp(0.0, 1.0);
+    (libm::sqrtf(1.0 - pan), libm::sqrtf(pan))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::equal_power_pan;
+
+    #[test]
+    fn pan_reaches_each_stereo_endpoint() {
+        let (left, right) = equal_power_pan(0.0);
+        assert!((left - 1.0).abs() < 1.0e-6);
+        assert!(right.abs() < 1.0e-6);
+
+        let (left, right) = equal_power_pan(1.0);
+        assert!(left.abs() < 1.0e-6);
+        assert!((right - 1.0).abs() < 1.0e-6);
+    }
+
+    #[test]
+    fn center_pan_is_equal_power() {
+        let (left, right) = equal_power_pan(0.5);
+        assert!((left - right).abs() < 1.0e-6);
+        assert!((left - core::f32::consts::FRAC_1_SQRT_2).abs() < 1.0e-6);
     }
 }
