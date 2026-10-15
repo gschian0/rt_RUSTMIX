@@ -14,9 +14,10 @@ use alloc::vec::Vec;
 use rtmix_core::{Engine, Pfield, SceneNote};
 use rtmix_dsp::{
     install_table, make_harmonics, schedule_chant, schedule_delay_prepared, schedule_filter,
+    schedule_granular,
     schedule_formant, schedule_fof, schedule_lpc, schedule_mix, schedule_reverb_prepared,
     schedule_speak, schedule_wavetable, ChantNote, DelayNote, FilterKind, FilterNote, FofNote,
-    FormantNote, LpcNote, MixNote, ReverbNote, SpeakNote, WavetableNote,
+    FormantNote, GranularNote, LpcNote, MixNote, ReverbNote, SpeakNote, WavetableNote,
 };
 use rtmix_spat::{
     schedule_binaural, schedule_decode, schedule_rotate, schedule_spat, BinauralNote, DecodeNote,
@@ -927,6 +928,25 @@ impl Interp<'_> {
                 .map_err(err_core)?;
                 Ok(Value::Num(0.0))
             }
+            "GRANULAR" => {
+                schedule_granular(
+                    self.engine,
+                    GranularNote {
+                        start: self.num_at(&values, 0)?,
+                        dur: self.num_at(&values, 1)?,
+                        amp: self.num_at(&values, 2)? as f32,
+                        grain_dur: self.num_at_opt(&values, 3)?.unwrap_or(0.12) as f32,
+                        density: self.num_at_opt(&values, 4)?.unwrap_or(18.0) as f32,
+                        pitch: self.num_at_opt(&values, 5)?.unwrap_or(1.0) as f32,
+                        jitter: self.num_at_opt(&values, 6)?.unwrap_or(0.15) as f32,
+                        pan: self.num_at_opt(&values, 7)?.unwrap_or(0.5) as f32,
+                        seed: self.num_at_opt(&values, 8)?.unwrap_or(1.0) as u32,
+                        table: self.num_at_opt(&values, 9)?.map(|n| n as usize),
+                    },
+                )
+                .map_err(err_core)?;
+                Ok(Value::Num(0.0))
+            }
             "MIX" => {
                 schedule_mix(
                     self.engine,
@@ -1303,5 +1323,28 @@ CAMERA(0, 1.0, 0, 1.6, 3.0)
             peak > 0.01 && peak < 1.05 && max_jump < 0.35 && energy.is_finite(),
             "peak {peak} max_jump {max_jump}"
         );
+    }
+
+    #[test]
+    fn granular_score_produces_windowed_audio() {
+        let score = r#"
+rtsetparams(48000, 2, 128)
+maketable("sine", 512)
+bus_config("GRANULAR", "out")
+GRANULAR(0, 0.4, 12000, 0.08, 32, 1.0, 0.2, 0.5, 77, 1)
+"#;
+        let mut engine = Engine::new(48_000, 2, 128);
+        execute(score, &mut engine).unwrap();
+        let mut energy = 0.0;
+        for _ in 0..((0.45 * 48_000.0) as usize / 128 + 1) {
+            engine.process_block();
+            energy += engine
+                .bus_plane(engine.out_bus(), 0)
+                .iter()
+                .chain(engine.bus_plane(engine.out_bus(), 1).iter())
+                .map(|sample| sample * sample)
+                .sum::<f32>();
+        }
+        assert!(energy > 1.0e-3, "granular score rendered silence");
     }
 }

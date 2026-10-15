@@ -108,6 +108,7 @@ impl Engine {
         routes.insert(String::from("LPC"), route("aux", "out"));
         routes.insert(String::from("SPEAK"), route("aux", "out"));
         routes.insert(String::from("WAVETABLE"), route("aux", "aux"));
+        routes.insert(String::from("GRANULAR"), route("aux", "out"));
         routes.insert(String::from("MIX"), route("aux", "out"));
         routes.insert(String::from("FILTER"), route("aux", "aux"));
         routes.insert(String::from("DELAY"), route("aux", "aux"));

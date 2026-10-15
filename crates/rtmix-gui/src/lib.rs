@@ -1032,6 +1032,7 @@ MIX(0, 16, 0.62)
         ),
         ScoreMode::SpatialCyclone => format!(
             r#"bus_config("WAVETABLE", "aux")
+bus_config("GRANULAR", "out")
 bus_config("FOF", "aux")
 bus_config("SPAT", "spat")
 bus_config("ROTATE", "spat")
@@ -1068,16 +1069,17 @@ odd = makeharm(2048, 24, 0.72, "odd")
                 root,
                 root * 1.5
             ));
-            for index in 0..96 {
-                let beat = index as f32 * 0.166;
-                let degree = [0usize, 2, 4, 1, 3, 5, 2, 6][index % 8];
-                let octave = if index % 16 >= 12 { 2.0 } else { 1.0 };
-                let grain_pitch = root * scale[degree] * octave;
-                let pan = 0.12 + (index % 9) as f32 * 0.095;
-                let amp = 820.0 + (index % 4) as f32 * 110.0;
-                let table = if index % 3 == 0 { "harm" } else { "odd" };
+            for index in 0..5 {
+                let degree = [0usize, 2, 4, 1, 3][index];
+                let octave = if index == 4 { 2.0 } else { 1.0 };
+                let grain_pitch = scale[degree] * octave;
+                let pan = 0.18 + index as f32 * 0.16;
+                let amp = 7600.0 + index as f32 * 500.0;
+                let density = 18.0 + index as f32 * 3.0;
+                let table = if index % 2 == 0 { "harm" } else { "odd" };
                 grains.push_str(&format!(
-                    "WAVETABLE({beat:.3}, 0.29, {amp:.0}, {grain_pitch:.2}, {pan:.2}, {table})\n"
+                    "GRANULAR(0, 16, {amp:.0}, 0.18, {density:.1}, {grain_pitch:.4}, 0.18, {pan:.2}, {}, {table})\n",
+                    seed_a.wrapping_add(index as u32 * 173)
                 ));
             }
             grains.push_str(&format!(

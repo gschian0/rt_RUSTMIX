@@ -45,7 +45,8 @@ budgets, and target-specific validation.
 
 - Real-time stereo audio engine with lock-free audio callback paths.
 - RTcmix-like score calls for `FORMANT`, `CHANT`, `FOF`, `LPC`, `SPEAK`,
-  `WAVETABLE`, `FILTER`, `DELAY`, `REVERB`, `SPAT`, `ROTATE`, and `DECODE`.
+  `WAVETABLE`, `GRANULAR`, `FILTER`, `DELAY`, `REVERB`, `SPAT`, `ROTATE`, and
+  `DECODE`.
 - Articulated text-to-speech synthesis with phones, formants, prosody, grit,
   jitter, and stereo layering.
 - Experimental modes including Speech, Whisper Swarm, Robot Oracle, Broken
@@ -58,6 +59,10 @@ budgets, and target-specific validation.
 - Audio analysis with FFT bands, RMS, centroid, and flux driving the visuals.
 - Optional Slang-to-SPIR-V compilation for the lower-level graphics pipelines,
   with matching WGSL fallbacks when `slangc` is unavailable.
+
+The `v2/rtcmix-expansion` branch is the active upgrade line. The original
+`v1.0.0` tag and `main` branch remain available for the classic early tones
+and the stable Version 1 implementation.
 
 ## Quick start
 

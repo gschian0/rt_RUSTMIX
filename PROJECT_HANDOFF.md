@@ -60,6 +60,9 @@ RTcmix runtime. The implemented surfaces include:
 - `FORMANT`: pitched resonant/formant tones.
 - `CHANT`: vowel/formant phrase textures.
 - `FOF`: overlapping formant-band grains.
+- `GRANULAR`: true scheduled table granulation with preallocated grain voices,
+  windowed envelopes, density, pitch jitter, source-table selection, and
+  stereo pan scatter.
 - `LPC`: synthetic LPC-like vocal/noise behavior; it is not a drop-in
   `LPCPLAY` analyzer/player.
 - `SPEAK`: typed phrases converted into phones with glottal excitation, vowel
@@ -86,11 +89,12 @@ The GUI generates 16-second looping patches. Current named modes are:
 - **Granular Bloom** — scale-quantized overlapping micro-grains, a sustained
   harmonic bed, FOF shimmer, delay, and reverb.
 
-Granular Bloom is currently a musical score-level granular texture built from
-short scheduled wavetable grains. It is intentionally deterministic enough to
-have a tonal center while varying scale degree, octave, table, and pan. A future
-dedicated sample/grain instrument could add source buffers, true time-stretch,
-and grain envelopes without changing the score architecture.
+Granular Bloom remains a musical preset, but v2 also exposes a true
+`GRANULAR(start, dur, amp, grain_dur, density, pitch, jitter, pan, seed, table)`
+instrument. Its grain voices are prepared before audio processing and use
+windowed table playback without allocating in the callback. Future work can
+add soundfile-backed source buffers and independent time-stretch without
+changing the score architecture.
 
 ## Speech implementation
 

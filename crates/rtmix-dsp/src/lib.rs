@@ -10,12 +10,14 @@ use alloc::boxed::Box;
 use alloc::vec::Vec;
 
 mod formant;
+mod granular;
 mod speech;
 mod vocal;
 
 pub use formant::{
     chant_pattern, euclid, make_harmonics, schedule_chant, schedule_formant, ChantNote, FormantNote,
 };
+pub use granular::{schedule_granular, GranularNote};
 pub use speech::{schedule_speak, text_to_phones, Phone, SpeakNote};
 pub use vocal::{schedule_fof, schedule_lpc, FofNote, LpcNote};
 
