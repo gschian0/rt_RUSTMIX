@@ -1,0 +1,10 @@
+[package]
+name = "rtmix-diff"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Offline forward/backward appearance fit for loaded splats"
+
+[dependencies]
+rtmix-gfx = { path = "../rtmix-gfx", default-features = false }
+libm = "0.2"

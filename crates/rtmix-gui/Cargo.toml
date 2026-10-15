@@ -1,0 +1,15 @@
+[package]
+name = "rtmix-gui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "egui score editor, transport, meters, and listener orientation"
+
+[dependencies]
+rtmix-core = { path = "../rtmix-core" }
+rtmix-minc = { path = "../rtmix-minc" }
+rtmix-host = { path = "../rtmix-host" }
+rtmix-gfx = { path = "../rtmix-gfx", default-features = false }
+eframe = { version = "0.31", features = ["wgpu"] }
+egui = "0.31"
+bytemuck = { version = "1", features = ["derive"] }

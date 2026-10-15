@@ -1,0 +1,13 @@
+[package]
+name = "rtmix-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Sample-accurate scheduler, buses, and instrument trait"
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+libm = "0.2"

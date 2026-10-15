@@ -1,0 +1,10 @@
+[package]
+name = "rtmix-host"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "cpal device, control queue, and block-boundary callback"
+
+[dependencies]
+rtmix-core = { path = "../rtmix-core" }
+cpal = "0.15"

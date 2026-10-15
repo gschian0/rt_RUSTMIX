@@ -1,0 +1,15 @@
+[package]
+name = "rtmix"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Rustmix desktop application"
+
+[[bin]]
+name = "rtmix"
+path = "src/main.rs"
+
+[dependencies]
+rtmix-gui = { path = "../../crates/rtmix-gui" }
+rtmix-gfx = { path = "../../crates/rtmix-gfx" }
+rtmix-core = { path = "../../crates/rtmix-core" }

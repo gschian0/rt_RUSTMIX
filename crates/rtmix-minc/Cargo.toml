@@ -1,0 +1,17 @@
+[package]
+name = "rtmix-minc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Minc subset parser and interpreter"
+
+[features]
+default = ["std", "order3"]
+std = ["rtmix-core/std", "rtmix-dsp/std", "rtmix-spat/std"]
+order3 = ["rtmix-spat/order3"]
+
+[dependencies]
+rtmix-core = { path = "../rtmix-core", default-features = false }
+rtmix-dsp = { path = "../rtmix-dsp", default-features = false }
+rtmix-spat = { path = "../rtmix-spat", default-features = false }
+libm = "0.2"

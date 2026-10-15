@@ -1,0 +1,16 @@
+[package]
+name = "rtmix-spat"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "ACN/SN3D Ambisonics encode, rotate, decode, and binaural"
+
+[features]
+default = ["std", "order3"]
+std = ["rtmix-core/std"]
+order3 = []
+higher_order = ["order3"]
+
+[dependencies]
+rtmix-core = { path = "../rtmix-core", default-features = false }
+libm = "0.2"

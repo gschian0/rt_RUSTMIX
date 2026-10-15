@@ -1,0 +1,19 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/rtmix-core",
+    "crates/rtmix-dsp",
+    "crates/rtmix-spat",
+    "crates/rtmix-minc",
+    "crates/rtmix-host",
+    "crates/rtmix-gui",
+    "crates/rtmix-gfx",
+    "crates/rtmix-diff",
+    "crates/rtmix-wasm",
+    "apps/rtmix",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
