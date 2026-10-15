@@ -2805,7 +2805,7 @@ checksum = "19b30a45b0cd0bcca8037f3d0dc3421eaf95327a17cad11964fb8179b4fc4832"
 
 [[package]]
 name = "rtmix"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "rtmix-core",
  "rtmix-gfx",
@@ -2814,14 +2814,14 @@ dependencies = [
 
 [[package]]
 name = "rtmix-core"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "libm",
 ]
 
 [[package]]
 name = "rtmix-diff"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "libm",
  "rtmix-gfx",
@@ -2829,7 +2829,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-dsp"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "libm",
  "rtmix-core",
@@ -2837,7 +2837,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-gfx"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "flate2",
  "libm",
@@ -2847,7 +2847,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-gui"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "bytemuck",
  "eframe",
@@ -2860,7 +2860,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-host"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "cpal",
  "rtmix-core",
@@ -2868,7 +2868,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-minc"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "libm",
  "rtmix-core",
@@ -2878,7 +2878,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-spat"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "libm",
  "rtmix-core",
@@ -2886,7 +2886,7 @@ dependencies = [
 
 [[package]]
 name = "rtmix-wasm"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
  "rtmix-core",
  "rtmix-dsp",
