@@ -11,6 +11,31 @@ score language drives procedural voices and effects while their FFT activity
 drives GPU Gaussian splats, reaction-diffusion fields, and experimental
 shaders.
 
+## Historical motivation and intended form
+
+The project follows a line from Paul Lansky's pre-1985 C-language CMIX through
+the real-time RTcmix work begun on SGI systems in the mid-1990s. RTcmix later
+expanded with bus routing, dynamic pfields, scripting interfaces, a much larger
+instrument library, and an embeddable C/C++ object. Its published history
+specifically connects embedding with the need for close data sharing between
+algorithmic audio and a host application:
+
+- [The history of CMIX and RTcmix](https://rtcmix.org/about/index.html)
+- [Creating an RTcmix Instrument](https://rtcmix.org/tutorials/instrumentdesign.html)
+
+RTcmix instruments broadly separate note initialization from repeated real-time
+sample computation. `rt_RUSTMIX` preserves that useful idea in Rust: parsing,
+allocation, and note preparation belong outside the callback; scheduled
+`Instrument` objects perform bounded processing inside it.
+
+The desktop GUI is a demonstration host, not the intended boundary of the
+system. The longer-term objective is a fully embeddable library for bespoke
+audiovisual programs, installations, games, instruments, research software,
+and embedded devices. The crate split already supports selective reuse, but
+embedded-device support is not yet complete: each target still needs an audio
+host, GPU or display strategy where applicable, memory/CPU limits, and
+real-time validation.
+
 ## How the system is divided
 
 The workspace is split into focused crates:

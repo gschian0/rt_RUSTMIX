@@ -9,6 +9,38 @@ This is a Rust implementation inspired by RTcmix techniques and score concepts;
 it is not the upstream RTcmix codebase and does not claim binary or algorithmic
 compatibility with every RTcmix instrument.
 
+## Why this project exists
+
+RTcmix descends from Paul Lansky's C-language CMIX work, which itself followed
+the earlier MUSIC-family approach to computer music. CMIX predates 1985;
+real-time RTcmix development began on SGI systems in the mid-1990s, and its
+source became publicly available in 1999. Over time the project gained bus
+routing, dynamic pfields, new instruments, scripting interfaces, and an
+embeddable C/C++ object.
+
+That embedded direction is especially important here. The
+[RTcmix history](https://rtcmix.org/about/index.html) describes a desire to put
+algorithmic music directly inside host software with close data sharing rather
+than treating synthesis as an isolated external program. `rt_RUSTMIX` carries
+that idea into Rust: the long-term goal is a small set of reusable crates that
+can be embedded in one-off audiovisual works, installations, games, research
+tools, instruments, and resource-constrained devices without requiring the
+desktop GUI.
+
+The [RTcmix instrument-design model](https://rtcmix.org/tutorials/instrumentdesign.html)
+is another direct inspiration. An RTcmix instrument initializes a scheduled
+note from score pfields and then repeatedly computes blocks of samples. Our
+Rust engine follows the same broad separation: score parsing and note
+construction happen outside the audio callback, while an `Instrument`
+implementation performs bounded real-time sample processing. This is an
+architectural influence, not a source-compatible port of the C++ API.
+
+The current desktop application demonstrates the libraries, but the intended
+architecture keeps synthesis, scheduling, spatial audio, graphics data, and
+hosting in separate crates so future applications can select only the pieces
+they need. True embedded-device targets still require platform hosts, resource
+budgets, and target-specific validation.
+
 ## What is here
 
 - Real-time stereo audio engine with lock-free audio callback paths.
@@ -72,6 +104,8 @@ draws especially on:
   instruments.
 - [RTcmix source repository](https://github.com/RTcmix/RTcmix)
 - [RTcmix documentation](https://rtcmix.org/reference/)
+- [The history of CMIX and RTcmix](https://rtcmix.org/about/index.html)
+- [Creating an RTcmix Instrument](https://rtcmix.org/tutorials/instrumentdesign.html)
 - [Khronos Slang](https://github.com/shader-slang/slang) — shader language and
   compiler used here as an optional authoring/compilation route.
 - [Slang documentation](https://shader-slang.org/)
